@@ -45,11 +45,11 @@ C:\xampp\htdocs\amms\
    - Login with default credentials (user: root, no password)
 
 3. **Create Database:**
-   - Copy all SQL commands from `database/schema.sql`
+   - Copy all SQL commands from `database/amms.sql`
    - Execute in phpMyAdmin SQL tab
    - OR use the MySQL command line:
    ```sql
-   source database/schema.sql
+   source database/amms.sql
    ```
 
 ### Step 3: Configure Database Connection
