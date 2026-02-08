@@ -1,0 +1,58 @@
+# =========================
+# AMMS SAFE .htaccess FILE
+# =========================
+
+# Enable rewrite engine
+RewriteEngine On
+RewriteBase /AMMS/
+
+# Disable directory listing
+Options -Indexes
+
+# Default charset
+AddDefaultCharset utf-8
+
+# -------------------------
+# URL Rewriting (optional)
+# -------------------------
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# -------------------------
+# Protect sensitive files
+# -------------------------
+<FilesMatch "\.(env|sql|db|ini|log)$">
+    Require all denied
+</FilesMatch>
+
+# Block hidden files (.git, .htaccess, etc.)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# -------------------------
+# PHP settings (local dev)
+# -------------------------
+php_flag display_errors On
+php_flag log_errors On
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+
+# -------------------------
+# Compression
+# -------------------------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript
+</IfModule>
+
+# -------------------------
+# Security headers
+# -------------------------
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
