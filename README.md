@@ -72,7 +72,7 @@ If your MySQL has a password, update `DB_PASS` value accordingly.
    http://localhost/amms/
    ```
 
-## 👥 User Roles & Credentials
+##  User Roles & Credentials
 
 ### Default Admin Account
 - **Email:** admin@amms.local
@@ -83,7 +83,7 @@ If your MySQL has a password, update `DB_PASS` value accordingly.
 1. **Farmer Account:** Register with role "Farmer"
 2. **Buyer Account:** Register with role "Buyer"
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 amms/
@@ -127,7 +127,7 @@ amms/
         └── style.css        # Main stylesheet
 ```
 
-## 🔐 Security Features
+## Security Features
 
 ### Implemented
 - ✅ Password hashing using `password_hash()` and `password_verify()`
@@ -145,7 +145,7 @@ amms/
 - Database queries use parameterized statements
 - Session data is properly managed
 
-## ✨ Core Features
+##  Core Features
 
 ### 1. Authentication & User Management
 - User registration with email verification concept
@@ -202,7 +202,7 @@ amms/
 - Sales reports
 - User analytics by role
 
-## 📊 Database Schema
+##  Database Schema
 
 ### Users Table
 ```sql
@@ -229,7 +229,7 @@ created_at, updated_at
 id, order_id, product_id, quantity, unit_price, total_price, created_at
 ```
 
-## 🎨 User Interface Features
+##  User Interface Features
 
 ### Responsive Design
 - Mobile-friendly layout (breakpoints: 768px, 480px)
@@ -253,7 +253,7 @@ id, order_id, product_id, quantity, unit_price, total_price, created_at
 - Minimal text density
 - Color-coded badges for status
 
-## 📱 Key Pages
+##  Key Pages
 
 ### Public Pages
 - **Home Page** - Overview and feature highlights
@@ -279,7 +279,7 @@ id, order_id, product_id, quantity, unit_price, total_price, created_at
 - Order management
 - Sales reports
 
-## 🔧 Configuration
+##  Configuration
 
 ### Database Connection
 File: `config/config.php`
@@ -302,7 +302,7 @@ define('APP_URL', 'http://localhost/amms');
 define('SITE_TIMEZONE', 'UTC');
 ```
 
-## 🎯 Workflow Examples
+## Workflow Examples
 
 ### Farmer Workflow
 1. Register as Farmer
@@ -331,7 +331,7 @@ define('SITE_TIMEZONE', 'UTC');
 6. Monitor orders
 7. Generate sales reports
 
-## 📝 Form Validation
+##  Form Validation
 
 ### Client-Side (JavaScript)
 - Email format validation
@@ -349,7 +349,7 @@ define('SITE_TIMEZONE', 'UTC');
 - Duplicate prevention
 - Ownership verification
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Database Connection Error
 - Verify MySQL is running in XAMPP
@@ -375,7 +375,7 @@ define('SITE_TIMEZONE', 'UTC');
 - Check if product is available
 - Review server error logs
 
-## 📞 Support
+##  Support
 
 For issues or questions:
 1. Check the README thoroughly
@@ -384,11 +384,11 @@ For issues or questions:
 4. Review XAMPP error logs
 5. Verify file permissions
 
-## 📄 License
+## License
 
 This project is created for educational purposes.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 Built as a comprehensive solution for connecting agricultural producers and consumers, improving market efficiency and transparency.
 
