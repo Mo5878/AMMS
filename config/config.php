@@ -4,9 +4,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// If using Composer autoload (optional, remove if not using composer)
-// require_once __DIR__ . '/../vendor/autoload.php';
-
 // Load .env file if exists
 if (file_exists(__DIR__ . '/.env')) {
     $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -34,16 +31,14 @@ define('APP_URL', $_ENV['APP_URL'] ?? 'http://localhost/amms');
 define('SITE_TIMEZONE', 'UTC');
 date_default_timezone_set(SITE_TIMEZONE);
 
-// Create database connection
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Database Connection failed: " . $conn->connect_error);
+// Create database connection using PDO
+try {
+    $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+    $conn = new PDO($dsn, DB_USER, DB_PASS);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Database Connection failed: " . $e->getMessage());
 }
-
-// Set character set to UTF-8
-$conn->set_charset("utf8mb4");
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
