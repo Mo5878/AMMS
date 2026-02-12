@@ -1,22 +1,20 @@
 <?php
-// Load environment variables (if using local .env)
-if (file_exists(__DIR__ . '/.env')) {
-    $dotenv = parse_ini_file(__DIR__ . '/.env');
-    foreach ($dotenv as $key => $value) {
-        putenv("$key=$value");
-    }
-}
+require_once __DIR__ . '/../vendor/autoload.php'; // Adjust path to autoload.php
+
+// Load .env file
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 // Database Configuration using environment variables
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASSWORD') ?: '');
-define('DB_NAME', getenv('DB_NAME') ?: 'amms');
+define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
+define('DB_USER', $_ENV['DB_USER'] ?? 'root');
+define('DB_PASS', $_ENV['DB_PASSWORD'] ?? '');
+define('DB_NAME', $_ENV['DB_NAME'] ?? 'amms');
 
 // Session Configuration
 define('SESSION_TIMEOUT', 1800); // 30 minutes
 define('APP_NAME', 'Agri-Market Management System');
-define('APP_URL', getenv('APP_URL') ?: 'http://localhost/amms');
+define('APP_URL', $_ENV['APP_URL'] ?? 'http://localhost/amms');
 
 // Site Configuration
 define('SITE_TIMEZONE', 'UTC');
