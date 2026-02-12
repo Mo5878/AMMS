@@ -1,14 +1,22 @@
 <?php
-// Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'amms');
+// Load environment variables (if using local .env)
+if (file_exists(__DIR__ . '/.env')) {
+    $dotenv = parse_ini_file(__DIR__ . '/.env');
+    foreach ($dotenv as $key => $value) {
+        putenv("$key=$value");
+    }
+}
+
+// Database Configuration using environment variables
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASSWORD') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'amms');
 
 // Session Configuration
 define('SESSION_TIMEOUT', 1800); // 30 minutes
 define('APP_NAME', 'Agri-Market Management System');
-define('APP_URL', 'http://localhost/amms');
+define('APP_URL', getenv('APP_URL') ?: 'http://localhost/amms');
 
 // Site Configuration
 define('SITE_TIMEZONE', 'UTC');
