@@ -1,13 +1,9 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Install required PHP extensions only
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+WORKDIR /app
 
-# Enable rewrite only (DO NOT enable any MPM)
-RUN a2enmod rewrite
+COPY . .
 
-# Copy project files
-COPY . /var/www/html/
+RUN docker-php-ext-install pdo pdo_mysql
 
-# Fix permissions
-RUN chown -R www-data:www-data /var/www/html
+CMD php -S 0.0.0.0:$PORT -t .
