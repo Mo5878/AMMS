@@ -1,56 +1,63 @@
 <?php
-// Enable error display for debugging (remove in production)
+// Enable error display for debugging (REMOVE in production)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Load .env file if exists
-if (file_exists(__DIR__ . '/.env')) {
-    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue; // skip comments
-        list($key, $value) = explode('=', $line, 2);
-        $_ENV[trim($key)] = trim($value);
-        putenv(trim($key) . '=' . trim($value));
-    }
+/*
+|--------------------------------------------------------------------------
+| Railway Environment Variables
+|--------------------------------------------------------------------------
+| Railway automatically provides environment variables.
+| Do NOT rely on .env file in production.
+*/
+
+define('DB_HOST', getenv('DB_HOST'));
+define('DB_USER', getenv('DB_USER'));
+define('DB_PASS', getenv('DB_PASSWORD'));
+define('DB_NAME', getenv('DB_NAME')); // usually "railway"
+define('DB_PORT', getenv('DB_PORT') ?: 3306);
+
+// Basic validation (very important)
+if (!DB_HOST || !DB_USER || !DB_NAME) {
+    die("Database environment variables are not set in Railway.");
 }
 
-// Database Configuration using environment variables
-define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_USER', $_ENV['DB_USER'] ?? 'root');
-define('DB_PASS', $_ENV['DB_PASSWORD'] ?? '');
-define('DB_NAME', $_ENV['DB_NAME'] ?? 'amms');
-define('DB_PORT', $_ENV['DB_PORT'] ?? 3306);
-
-// Session Configuration
-define('SESSION_TIMEOUT', 1800); // 30 minutes
+// App Configuration
+define('SESSION_TIMEOUT', 1800);
 define('APP_NAME', 'Agri-Market Management System');
-define('APP_URL', $_ENV['APP_URL'] ?? 'http://localhost/amms');
+define('APP_URL', getenv('APP_URL') ?: 'http://localhost');
 
-// Site Configuration
-define('SITE_TIMEZONE', 'UTC');
-date_default_timezone_set(SITE_TIMEZONE);
+date_default_timezone_set('UTC');
 
-// Create database connection using PDO
+// Create PDO connection
 try {
-    $dsn = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4";
-    $conn = new PDO($dsn, DB_USER, DB_PASS);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $dsn = "mysql:host=" . DB_HOST .
+           ";port=" . DB_PORT .
+           ";dbname=" . DB_NAME .
+           ";charset=utf8mb4";
+
+    $conn = new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_TIMEOUT => 5
+    ]);
+
 } catch (PDOException $e) {
     die("Database Connection failed: " . $e->getMessage());
 }
 
-// Start session if not already started
+// Start session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check session timeout
-if (isset($_SESSION['last_activity'])) {
-    if ((time() - $_SESSION['last_activity']) > SESSION_TIMEOUT) {
-        session_unset();
-        session_destroy();
-    }
+// Session timeout
+if (isset($_SESSION['last_activity']) &&
+    (time() - $_SESSION['last_activity']) > SESSION_TIMEOUT) {
+    session_unset();
+    session_destroy();
 }
+
 $_SESSION['last_activity'] = time();
 ?>
